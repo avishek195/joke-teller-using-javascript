@@ -106,10 +106,10 @@ const VoiceRSS = {
   },
 };
 
-function getVoice(setup, delivery, joke) {
+function getVoice(jokeString) {
   VoiceRSS.speech({
     key: "40377e6c326d421394e8c3c3f07feb7a",
-    src: joke ? `${joke}` : `${setup}. ${delivery}`,
+    src: jokeString,
     hl: "en-in",
     v: "Oran",
     r: 0,
@@ -128,7 +128,10 @@ async function getJokes() {
     const data = await responce.json();
     // console.log(data);
     const { setup, delivery, joke } = data;
-    getVoice(setup, delivery, joke);
+    const jokeString = joke
+      ? `${joke}`
+      : `${setup}. ${delivery}`.trim().replace(/ /g, "%20");
+    getVoice(jokeString);
   } catch (err) {
     console.log("Some Error", err);
   }
