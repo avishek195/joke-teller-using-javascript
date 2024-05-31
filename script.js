@@ -1,6 +1,6 @@
-// const button = document.querySelector("#button");
 const button = document.querySelector(".btn");
 const audioElement = document.querySelector("#audio");
+const result = document.querySelector(".result");
 
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
@@ -107,10 +107,10 @@ const VoiceRSS = {
   },
 };
 
-function test() {
+function getVoice(setup, delivery, joke) {
   VoiceRSS.speech({
     key: "40377e6c326d421394e8c3c3f07feb7a",
-    src: "Why didn’t the skeleton cross the road? Because he had no guts.",
+    src: joke ? `${joke}` : `${setup}. ${delivery}`,
     hl: "en-in",
     v: "Oran",
     r: 0,
@@ -120,6 +120,24 @@ function test() {
   });
 }
 
-button.addEventListener("click", () => {
-  test();
+//Get jokes from joke API
+
+async function getJokes() {
+  const apiUrl =
+    "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit";
+  try {
+    const responce = await fetch(apiUrl);
+    const data = await responce.json();
+    // console.log(data);
+    return data;
+  } catch (err) {
+    console.log("Some Error", err);
+  }
+}
+
+button.addEventListener("click", async () => {
+  const { setup, delivery, joke } = await getJokes();
+  // console.log(setup, delivery);
+  // result.innerText = joke ? `${joke}` : `${setup}. ${delivery}`;
+  getVoice(setup, delivery, joke);
 });
