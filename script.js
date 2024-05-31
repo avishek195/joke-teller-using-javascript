@@ -1,3 +1,7 @@
+// const button = document.querySelector("#button");
+const button = document.querySelector(".btn");
+const audioElement = document.querySelector("#audio");
+
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
   speech: function (e) {
@@ -35,7 +39,8 @@ const VoiceRSS = {
     (t.onreadystatechange = function () {
       if (4 == t.readyState && 200 == t.status) {
         if (0 == t.responseText.indexOf("ERROR")) throw t.responseText;
-        (audioElement.src = t.responseText), audioElement.play();
+        audioElement.src = t.responseText;
+        audioElement.play();
       }
     }),
       t.open("POST", "https://api.voicerss.org/", !0),
@@ -102,5 +107,19 @@ const VoiceRSS = {
   },
 };
 
-const button = document.querySelector("#button");
-const audio = document.querySelector("#audio");
+function test() {
+  VoiceRSS.speech({
+    key: "40377e6c326d421394e8c3c3f07feb7a",
+    src: "Why didn’t the skeleton cross the road? Because he had no guts.",
+    hl: "en-in",
+    v: "Oran",
+    r: 0,
+    c: "mp3",
+    f: "48khz_16bit_mono",
+    ssml: false,
+  });
+}
+
+button.addEventListener("click", () => {
+  test();
+});
