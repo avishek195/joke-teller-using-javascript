@@ -1,6 +1,5 @@
 const button = document.querySelector(".btn");
 const audioElement = document.querySelector("#audio");
-const result = document.querySelector(".result");
 
 // VoiceRSS Javascript SDK
 const VoiceRSS = {
