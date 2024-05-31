@@ -121,7 +121,6 @@ function getVoice(setup, delivery, joke) {
 }
 
 //Get jokes from joke API
-
 async function getJokes() {
   const apiUrl =
     "https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit";
@@ -129,15 +128,17 @@ async function getJokes() {
     const responce = await fetch(apiUrl);
     const data = await responce.json();
     // console.log(data);
-    return data;
+    const { setup, delivery, joke } = data;
+    getVoice(setup, delivery, joke);
   } catch (err) {
     console.log("Some Error", err);
   }
 }
 
-button.addEventListener("click", async () => {
-  const { setup, delivery, joke } = await getJokes();
-  // console.log(setup, delivery);
-  // result.innerText = joke ? `${joke}` : `${setup}. ${delivery}`;
-  getVoice(setup, delivery, joke);
+button.addEventListener("click", () => {
+  button.disabled = true;
+  getJokes();
+});
+audioElement.addEventListener("ended", () => {
+  button.disabled = false;
 });
